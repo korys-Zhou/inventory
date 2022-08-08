@@ -2,7 +2,7 @@
 #include <ucontext.h>
 #include <unistd.h>
 
-using std::cout,std::endl;
+using namespace std;
 int i1=0,i2=0;
 ucontext_t ctx1,ctx2;
 
@@ -19,8 +19,8 @@ void func2_sub1(){
 
 void func2(){
     getcontext(&ctx2);
-    ctx2.uc_stack.ss_sp=new char[1024];
-    ctx2.uc_stack.ss_size=1024;
+    ctx2.uc_stack.ss_sp=new char[2048];
+    ctx2.uc_stack.ss_size=2048;
     ctx2.uc_link=nullptr;
     makecontext(&ctx2,func2_sub1,0);
     setcontext(&ctx2);
@@ -42,13 +42,13 @@ void func3(){
     getcontext(&ctx1);
     getcontext(&ctx2);
 
-    ctx1.uc_stack.ss_sp=new char[1024];
-    ctx1.uc_stack.ss_size=1024;
+    ctx1.uc_stack.ss_sp=new char[2048];
+    ctx1.uc_stack.ss_size=2048;
     ctx1.uc_link=&ctx2;
     makecontext(&ctx1,func3_sub1,0);
 
-    ctx2.uc_stack.ss_sp=new char[1024];
-    ctx2.uc_stack.ss_size=1024;
+    ctx2.uc_stack.ss_sp=new char[2048];
+    ctx2.uc_stack.ss_size=2048;
     ctx2.uc_link=&ctx1;
     makecontext(&ctx2,func3_sub2,0);
 
@@ -56,6 +56,8 @@ void func3(){
 }
 
 int main(){
-    func2();
+    cout<<"main start...\n\n";
+    func3();
+    cout<<"main return.\n";
     return 0;
 }
