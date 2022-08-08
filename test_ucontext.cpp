@@ -56,6 +56,6 @@ void func3(){
 }
 
 int main(){
-    func3();
+    func2();
     return 0;
 }
